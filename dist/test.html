@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h3>好</h3>
+</body>
+<script>
+  function* initGeneratorFunction(){
+    let id = 0
+    while(id < 3) yield id++
+  }
+  let gen = initGeneratorFunction()
+  console.log(gen.next())
+  gen.return()
+  console.log(gen.next())
+  console.log(gen.next())
+  console.log(gen.next())
+  console.log(gen.next())
+  console.log(gen.next())
+  console.log(gen.next())
+</script>
+</html>

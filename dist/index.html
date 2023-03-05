@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div id="app" class="test" style="background-color: antiquewhite; font-family: AkayaTelivigala">
+        <div>
+            hello {{name}} hello {{age}} hi
+        </div>
+        <span id="123">nihao</span>
+        <span class="texzt">{{age}}</span>
+    </div>
+</body>
+<script src="./vue.js"></script>
+<!--<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>-->
+<script>
+    const vm = new Vue({
+        el: '#app',
+        data(){
+            return{
+                name: 'zs',
+                age: 20,
+                address: {
+                    te: 'sd fsdfsdf',
+                    aha: 17
+                },
+                hobby: ['eat', 'drink', {a : 1}]
+            }
+        },
+        // template: `<div>hello</div>`
+    })
+    setTimeout(()=> {
+        vm.name = 'tom'
+        vm.age = 998
+
+        vm._update(vm._render())
+    }, 1500)
+</script>
+</html>
