@@ -1,7 +1,9 @@
 import { newArrayProto } from "./array";
+import Dep from "./dep";
 
 class Observer{
     constructor(data) {
+        this.dep = new Dep()
         //如果data是对象的话 就会出现循环遍历的情况 所以要避免循环遍历 __ob__ enumerable设置为false
         Object.defineProperty(data, '__ob__',{
             value: this,
@@ -26,18 +28,41 @@ class Observer{
         Object.keys(data).forEach(key => defineReactive(data,key,data[key]))
     }
 }
+// 递归遍历数组进行更新
+function dependArray(value) {
+    for(let i= 0;i <value.length; i++){
+        let cur = value[i]
+        cur.__ob__ && cur.__ob__.dep.depend()
+        if(Array.isArray(cur)){
+            dependArray(cur)
+        }
+    }
+}
+
 export function defineReactive(target,key, value) {
     //对象中的value 是对象的话 要递归进行数据劫持
-    observe(value)
+    let childOB = observe(value)
+    let dep = new Dep()     // 每一个属性都有一个Dep
     Object.defineProperty(target, key,{
         get(){
-            console.log('用户获取值了',key)
+            if(Dep.target){
+                dep.depend()
+                if(childOB){
+                    childOB.dep.depend()
+                    if(Array.isArray(value)){
+                        dependArray(value)
+                    }
+
+                }
+            }
             return value
         },
         set(newValue){
-            console.log('用户设置值了')
             if(newValue === value)  return
+            observe(newValue)
             value = newValue
+            //数据变化 通知视图更新
+            dep.notify()
         }
     })
 }

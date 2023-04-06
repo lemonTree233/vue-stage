@@ -2,16 +2,23 @@
 import Vue from "./index";
 import { initState } from "./state";
 import { compileToFunction } from "./compiler";
-import { mountComponent } from "./lifecycle";
+import { callHook, mountComponent } from "./lifecycle";
+import { mergeOptions } from "./utils";
 
 //扩展vue的初始化
 export const initMixin = function (Vue){
     //用于初始化操作
     Vue.prototype._init = function (options){
         const vm = this
-        vm.$options = options
+
+        //用户定义的全局指令、过滤器 都会挂载到实例上
+        vm.$options = mergeOptions(this.constructor.options, options)
+
+        callHook(vm, 'beforeCreate')
         //初始化状态
         initState(vm)
+        callHook(vm, 'created')
+
         if(options.el){
             vm.$mount(options.el)
         }

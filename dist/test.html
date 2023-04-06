@@ -3,23 +3,75 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <style>
+         html, body{
+            width: 100%;
+            height: 100%;
+        }
+        .left{
+            width: 200px;
+            height:100%;
+            float: left;
+            background-color: blueviolet;
+        }
+        .right{
+            width: auto;
+            margin-left: 200px;
+            height: 100%;
+            background-color: blue;
+        }
+    </style>
 </head>
 <body>
-<h3>好</h3>
+<div style="width: 100%; height: 100%">
+    <div class="left"></div>
+    <div class="right"></div>
+
+</div>
 </body>
 <script>
-  function* initGeneratorFunction(){
-    let id = 0
-    while(id < 3) yield id++
-  }
-  let gen = initGeneratorFunction()
-  console.log(gen.next())
-  gen.return()
-  console.log(gen.next())
-  console.log(gen.next())
-  console.log(gen.next())
-  console.log(gen.next())
-  console.log(gen.next())
-  console.log(gen.next())
+    /*  function* initGeneratorFunction(){
+        let id = 0
+        while(id < 3) yield id++
+      }
+      let gen = initGeneratorFunction()
+      console.log(gen.next())
+      gen.return()
+      console.log(gen.next())
+      console.log(gen.next())
+      console.log(gen.next())*/
+
+    // 手写instanceof
+    function myInstance(left, right) {
+        let proto = left.__proto__
+        const prototy = right.prototype
+
+        while (true) {
+            if (!proto) return false
+            if (proto === prototy) return true
+            proto = proto.__proto__
+        }
+    }
+
+    // console.log(myInstance(1, Number))
+    // console.log(1 instanceof Number)
+
+    var obj = {
+        say: function() {
+            var f1 = () =>  {
+                console.log("1111", this);
+            }
+            f1();
+        },
+        pro: {
+            getPro:function ()  {
+                console.log(this);
+            }
+        }
+    }
+    var o = obj.say;
+    o();
+    obj.say();
+    obj.pro.getPro();
 </script>
 </html>

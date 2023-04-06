@@ -16,7 +16,6 @@ let methods = [
 methods.forEach(method =>{
     newArrayProto[method] =  function (...args){
         let ob = this.__ob__
-        console.log(ob, 'ob')
         const result = oldArrayProto[method].call(this, ...args)
         let inserted
         switch (method) {
@@ -34,6 +33,7 @@ methods.forEach(method =>{
             //需要对数组中新增的对象进行劫持
             ob.observeArray(inserted)
         }
+        ob.dep.notify()
         return result
     }
 })

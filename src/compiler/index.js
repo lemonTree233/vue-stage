@@ -61,22 +61,25 @@ function gen(node) {
 
 //代码生成方法
 function codegen(ast) {
+
     const children = genChildren(ast.children)
-    const code = (`_c('${ast.tag}', 
-    ${ast.attrs.length ? genprops(ast.attrs) : 'null' }
+    const code = (`_c('${ast.tag}',${ast.attrs.length ? genprops(ast.attrs) : 'null' }
     ${ast.children.length ? `,${children}` : ''}
     )`)
+
     return code
 }
 // 对模板进行编译处理
 export function compileToFunction(template) {
     // 1. 将template转化成AST语法树
     let ast = parseHTML(template)
+
     //2. 生成render方法  （render方法执行后的结果就是虚拟DOM）
     let code = codegen(ast)
 
     //模板引擎的实现原理 就是 with + new Function
     code = `with(this){return ${code}}`
+
     let render = new Function(code)
     return render
 

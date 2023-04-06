@@ -8,8 +8,8 @@ const startTagClose = /^\s*(\/?)>/;  // <div> <br/>
 
 export function parseHTML(html) {
 
-    const ELEMENT_TYPE = 1
-    const TEXT_TYPE = 3
+    const ELEMENT_TYPE = 1  // 节点类型
+    const TEXT_TYPE = 3     // 文本类型
     const stack = []
     let currentParent   //用于指向栈中的最后一个元素
     let root
@@ -40,7 +40,7 @@ export function parseHTML(html) {
     }
     function char(text) {
         // 去重操作
-        text = text.replace(/\s/g,'')
+        text = text.replace(/\s/g,' ')
         text && currentParent.children.push({
             type: TEXT_TYPE,
             text,

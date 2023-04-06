@@ -6,11 +6,8 @@
 </head>
 <body>
     <div id="app" class="test" style="background-color: antiquewhite; font-family: AkayaTelivigala">
-        <div>
-            hello {{name}} hello {{age}} hi
-        </div>
-        <span id="123">nihao</span>
-        <span class="texzt">{{age}}</span>
+        {{address}}
+        <div>{{arr}}</div>
     </div>
 </body>
 <script src="./vue.js"></script>
@@ -26,16 +23,36 @@
                     te: 'sd fsdfsdf',
                     aha: 17
                 },
-                hobby: ['eat', 'drink', {a : 1}]
+                a: {test: 'woshihuochewang'},
+                arr: ['eat', 'drink', {a : 1}, [1,2,3]]
             }
         },
         // template: `<div>hello</div>`
     })
-    setTimeout(()=> {
-        vm.name = 'tom'
-        vm.age = 998
+    // setTimeout(()=> {
+    //     vm.name = 'tom'     // 这里会执行两次 但是我希望只执行一次
+    //     vm.name= 'Lucy'
+    //     vm.name= 'tui33'
+    //     vm.age = 998
+    //     vm.age = 18
+    //     // vm.address = {}
+    //     // vm._update(vm._render())
+    // }, 1500)
 
-        vm._update(vm._render())
-    }, 1500)
+    // vm.name = 'jw'; // 不会立即重新渲染页面
+    //
+    // vm.$nextTick(()=>{
+    //     console.log(app.innerHTML); // 同步获取
+    //     vm.hobby.splice(2,1)
+    //     console.log(vm._data)
+    // })
+    setTimeout(() => {
+        // vm.address.b = 1
+        // vm.address.__ob__.dep.notify()      // $set 原理
+
+        vm.arr.push(100,100,100)
+        vm.arr[3].push(40)
+    }, 1000)
+
 </script>
 </html>

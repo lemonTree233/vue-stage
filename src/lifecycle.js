@@ -1,5 +1,5 @@
 import { createElementVnode, createTextVnode } from "./vdom";
-
+import Watcher from "./observe/watcher";
 export function initLifeCycle(Vue) {
     //根据虚拟DOM生成真实DOM
     Vue.prototype._update = function (vnode){
@@ -25,10 +25,16 @@ export function initLifeCycle(Vue) {
     }
 
 }
+
 export function mountComponent(vm, el){
+    function updateComponent() {
+        vm._update(vm._render())
+    }
     vm.$el = el
     //1. 调用render方法产生虚拟节点 虚拟DOM
-    vm._update(vm._render())
+     let watcher = new Watcher(vm, updateComponent, true)
+
+    console.log(watcher, 'watcher')
     //2. 根据虚拟DOM产生真实DOM
 
     //3. 插入到el元素中
@@ -42,6 +48,7 @@ function createElm(vnode) {
             vnode.el.appendChild(createElm(child))
         })
     }else {
+        //tag 是undefined 文本节点
         vnode.el = document.createTextNode(text)
     }
     return vnode.el
@@ -82,3 +89,12 @@ export function patch(oldNode, vnode) {
 // 3) 将ast语法树转换了render函数 4) 后续每次数据更新可以只执行render函数 (无需再次执行ast转化的过程)
 // render函数会去产生虚拟节点（使用响应式数据）
 // 根据生成的虚拟节点创造真实的DOM
+
+// 执行具体的某一个生命周期
+export function callHook(vm, hook) {
+    const handlers = vm.$options[hook]
+
+    if(handlers){
+        handlers.forEach(handler => handler.call(vm))
+    }
+}
