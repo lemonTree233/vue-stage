@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div id="app">
+    {{address}}
+</div>
+</body>
+<script src="./vue.js"></script>
+<!--<script src="https://cdn.jsdelivr.net/npm/vue@2"></script>-->
+<script>
+    Vue.mixin({
+        created() {
+            console.log('mixin1')
+        },
+        c: 344
+    })
+
+    Vue.mixin({
+        created() {
+            console.log('mixin2')
+        }
+    })
+    console.log(Vue.options, 'options')
+    const vm = new Vue({
+        el: '#app',
+        data() {
+            return {
+                name: 'zs',
+                age: 20,
+                address: {
+                    te: 'sd fsdfsdf',
+                    aha: 17
+                },
+            }
+        },
+        beforeCreate() {
+            console.log('beforeCreate')
+        },
+        created() {
+            console.log('我是实例的mixin')
+        },
+        mounted() {
+            console.log('我是mounted')
+        }
+    })
+
+
+</script>
+
+</html>
