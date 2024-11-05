@@ -18,7 +18,6 @@ export const initMixin = function (Vue){
         //初始化状态
         initState(vm)
         callHook(vm, 'created')
-
         if(options.el){
             vm.$mount(options.el)
         }
